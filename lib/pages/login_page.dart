@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/utils/routes.dart';
+import 'package:flutter_catalog/widget/themes.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,13 +16,15 @@ class _LoginPageState extends State<LoginPage> {
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
 
-  moveToHome(BuildContext) async {
+  Future<void> moveToHome() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         changeButton = true;
       });
       await Future.delayed(Duration(seconds: 1));
+      if (!mounted) return;
       await Navigator.pushNamed(context, MyRoutes.homeRoute);
+       if (!mounted) return;
       setState(() {
         changeButton = false;
       });
@@ -30,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, //  FIX HERE
+      backgroundColor: Vx.white, //  FIX HERE
       body: SafeArea(
         //color: Colors.white,
         child: SingleChildScrollView(
@@ -42,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 20.0),
                 Text(
                   "Welcome $name",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20.0),
                 Padding(
@@ -86,10 +90,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 20.0),
                       Material(
-                        color: Colors.deepPurpleAccent,
+                        color: MyTheme.grayColor,
                         borderRadius: BorderRadius.circular(50),
                         child: InkWell(
-                          onTap: () => moveToHome(BuildContext),
+                          onTap: moveToHome,
                           child: AnimatedContainer(
                             duration: Duration(seconds: 1),
                             width: changeButton ? 50 : 140,
