@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/core/store.dart';
+import 'package:flutter_catalog/pages/cart_page.dart';
+import 'package:flutter_catalog/pages/home_page.dart';
+import 'package:flutter_catalog/pages/login_page.dart';
+import 'package:flutter_catalog/widget/themes.dart';
+import 'package:flutter_catalog/utils/routes.dart';
+import 'package:velocity_x/velocity_x.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() {
-  runApp(MyApp());
+  setPathUrlStrategy();
+  runApp(VxState(store: MyStore(), child: MyApp()));
 }
 
 // type stl to get this statelessWidget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    int days = 5;
     return MaterialApp(
-      home: Material(
-        child: Center(
-          child: Container(child: Text('Welcome to day $days of Flutter')),
-        ),
-      ),
+      themeMode: ThemeMode.light,
+      theme: MyTheme.lightTheme(context),
+      darkTheme: MyTheme.darkTheme(context),
+      debugShowCheckedModeBanner: false,
+      initialRoute: MyRoutes.loginRoute,
+      routes: {
+        "/": (context) => LoginPage(),
+        MyRoutes.homeRoute: (context) => HomePage(),
+        MyRoutes.loginRoute: (context) => LoginPage(),
+        MyRoutes.cartRoute: (context) => CartPage(),
+      },
     );
   }
 }
